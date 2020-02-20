@@ -1,5 +1,6 @@
 package me.uquark.barrymore.avatar;
 
+import me.uquark.barrymore.Application;
 import me.uquark.barrymore.ui.IUserInterface;
 import me.uquark.barrymore.ui.UserOrder;
 
