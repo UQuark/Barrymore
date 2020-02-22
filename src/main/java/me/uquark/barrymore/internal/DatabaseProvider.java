@@ -2,7 +2,12 @@ package me.uquark.barrymore.internal;
 
 import org.h2.tools.Server;
 
-import java.sql.*;
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetProvider;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseProvider {
     private static Server server = null;
@@ -17,14 +22,12 @@ public class DatabaseProvider {
         server.stop();
     }
 
-    public static String rawQuery(String query) throws SQLException {
+    public static CachedRowSet query(String query) throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:h2:~/.barrymore/database", "barrymore", "");
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        StringBuilder rawResponse = new StringBuilder();
-        while (resultSet.next())
-            rawResponse.append(resultSet.getString(1)).append(" | ").append(resultSet.getString(2)).append("\n");
+        CachedRowSet result = RowSetProvider.newFactory().createCachedRowSet();
+        result.populate(statement.executeQuery(query));
         connection.close();
-        return rawResponse.toString();
+        return result;
     }
 }

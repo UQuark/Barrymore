@@ -6,7 +6,6 @@ import me.uquark.barrymore.ui.UserOrder;
 
 public class Barrymore implements IAvatar {
     private IUserInterface ui;
-    private volatile boolean running = false;
 
     public Barrymore(IUserInterface ui) {
         this.ui = ui;
@@ -29,17 +28,11 @@ public class Barrymore implements IAvatar {
     @Override
     public void halt() {
         ui.close();
-        running = false;
-    }
-
-    @Override
-    public boolean isRunning() {
-        return running;
+        Application.halt();
     }
 
     @Override
     public void run() {
-        running = true;
         ui.setAvatar(this);
         ui.open();
     }

@@ -1,5 +1,8 @@
 package me.uquark.barrymore.internal;
 
+import javax.sql.rowset.CachedRowSet;
+import java.sql.SQLException;
+
 public class User {
     public final int id;
     public final Group group;
@@ -13,16 +16,20 @@ public class User {
         Owner,
     }
 
-    public static User root = new User(0, Group.Owner, "root");
-    public static User unknown = new User(-1, Group.Unknown, "unknown");
+    public static final int ROOT_UID = 1, UNKNOWN_UID = 2;
 
-    public User(int id, Group group, String name) {
+    public User(int id, String name, Group group) {
         this.id = id;
-        this.group = group;
         this.name = name;
+        this.group = group;
     }
 
-    public static User getUserById(int roomId) {
-        return unknown;
+    public static User getUserById(int userId) throws SQLException {
+        String query = String.format("SELECT userName, groupId FROM users WHERE userId = %d", userId);
+        CachedRowSet crs = DatabaseProvider.query(query);
+        crs.next();
+        String userName = crs.getString(1);
+        int groupId = crs.getInt(2);
+        return new User(userId, userName, Group.values()[groupId - 1]);
     }
 }

@@ -1,8 +1,11 @@
 package me.uquark.barrymore.tests;
 
 import me.uquark.barrymore.internal.DatabaseProvider;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Test;
 
+import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 
 public class TestDatabaseProvider {
@@ -32,7 +35,7 @@ public class TestDatabaseProvider {
 
         boolean ok = true;
         try {
-            DatabaseProvider.rawQuery("SELECT * FROM test");
+            DatabaseProvider.query("SELECT * FROM test");
         } catch (SQLException e) {
             ok = false;
         }
@@ -45,8 +48,10 @@ public class TestDatabaseProvider {
     public void SQLResponseValidity() throws SQLException {
         Assume.assumeTrue(startServer());
 
-        Assert.assertEquals("SQL response is invalid", DatabaseProvider.rawQuery("SELECT * FROM test"),
-                "foo1 | bar1\nfoo2 | bar2\n");
+        CachedRowSet crs = DatabaseProvider.query("SELECT * FROM test");
+        crs.next();
+        Assert.assertEquals("SQL response is invalid", crs.getString(1), "val");
+
         stopServer();
     }
 }
