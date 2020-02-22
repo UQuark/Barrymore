@@ -10,7 +10,7 @@ public class DatabaseProvider {
     public static void startServer() throws SQLException {
         if (server != null && server.isRunning(false))
             return;
-        server = Server.createTcpServer("-tcpPort", "1433");
+        server = Server.createTcpServer("-tcpPort", "0");
     }
 
     public static void stopServer() {
