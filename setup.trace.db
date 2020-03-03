@@ -1,0 +1,8 @@
+2020-03-02 17:54:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "TEST" не найдена
+Table "TEST" not found; SQL statement:
+SELECT * FROM test [42102-200]
+2020-03-02 17:54:14 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "TEST" не найдена
+Table "TEST" not found; SQL statement:
+SELECT * FROM test [42102-200]

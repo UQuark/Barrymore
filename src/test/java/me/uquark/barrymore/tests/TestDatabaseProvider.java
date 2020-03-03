@@ -13,7 +13,7 @@ public class TestDatabaseProvider {
         boolean ok = true;
         try {
             DatabaseProvider.startServer();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             ok = false;
         }
         return ok;
