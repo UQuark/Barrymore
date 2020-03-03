@@ -1,5 +1,6 @@
 package me.uquark.barrymore.internal;
 
+import me.uquark.barrymore.Application;
 import org.h2.tools.Server;
 
 import javax.sql.rowset.CachedRowSet;
@@ -15,9 +16,7 @@ public class DatabaseProvider {
     private static String url = "";
 
     public static void startServer() throws SQLException, MalformedURLException {
-        url = System.getenv("BARRYMORE_DB_URL");
-        if (url.equals("null"))
-            throw new MalformedURLException("BARRYMORE_DB_URL is not set");
+        url = "jdbc:h2:" + Application.BARRYMORE_HOME + "database";
         if (server != null && server.isRunning(false))
             return;
         server = Server.createTcpServer("-tcpPort", "0");
