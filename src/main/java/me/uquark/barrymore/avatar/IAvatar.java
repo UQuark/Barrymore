@@ -7,4 +7,5 @@ public interface IAvatar {
     String getName();
     void halt();
     void run();
+    void say(String message);
 }
