@@ -22,11 +22,6 @@ public class Barrymore implements IAvatar {
 
     @Override
     public void userOrder(UserOrder uo) {
-        if (uo.message.equals("/exit")) {
-            halt();
-            return;
-        }
-        ui.putMessage(uo.message);
     }
 
     @Override
