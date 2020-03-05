@@ -4,6 +4,7 @@ import me.uquark.barrymore.algorithm.Algorithm;
 import me.uquark.barrymore.avatar.IAvatar;
 import me.uquark.barrymore.ui.UserOrder;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,25 +14,27 @@ public abstract class AbstractService {
     protected final ArrayList<String> dictionaryValues = new ArrayList<String>();
     protected final IAvatar avatar;
 
-    protected void loadDictionary(String strings, String values) {
+    protected void loadDictionary(String strings, String values) throws IOException {
         InputStream stringsStream = getClass().getResourceAsStream(strings);
         InputStream valuesString = getClass().getResourceAsStream(values);
 
         Scanner scanner = new Scanner(stringsStream);
-        while (true) {
-            String word = scanner.next();
-            if (word == null)
-                break;
+        while (scanner.hasNextLine()) {
+            String word = scanner.nextLine();
             dictionaryStrings.add(word);
         }
 
+        scanner.close();
+        stringsStream.close();
+
         scanner = new Scanner(valuesString);
-        while (true) {
-            String word = scanner.next();
-            if (word == null)
-                break;
+        while (scanner.hasNextLine()) {
+            String word = scanner.nextLine();
             dictionaryValues.add(word);
         }
+
+        scanner.close();
+        stringsStream.close();
     }
 
     protected abstract void process(ArrayList<String> keywords);

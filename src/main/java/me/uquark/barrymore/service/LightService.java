@@ -2,13 +2,14 @@ package me.uquark.barrymore.service;
 
 import me.uquark.barrymore.avatar.IAvatar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LightService extends AbstractService {
-    private static final String STRINGS_DICT_RESOURCE = "/lightservice.dictionary.strings.strings";
-    private static final String VALUES_DICT_RESOURCE = "/lightservice.dictionary.values";
+    private static final String STRINGS_DICT_RESOURCE = "/me/uquark/barrymore/lightservice.dictionary.strings";
+    private static final String VALUES_DICT_RESOURCE = "/me/uquark/barrymore/lightservice.dictionary.values";
 
-    public LightService(IAvatar avatar) {
+    public LightService(IAvatar avatar) throws IOException {
         super(avatar);
         loadDictionary(STRINGS_DICT_RESOURCE, VALUES_DICT_RESOURCE);
     }
@@ -36,7 +37,7 @@ public class LightService extends AbstractService {
                 avatar.say("Повторите пожалуйста.");
                 return;
             }
-
         }
+        avatar.say("Повторите пожалуйста.");
     }
 }

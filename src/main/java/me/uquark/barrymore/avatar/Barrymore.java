@@ -6,6 +6,7 @@ import me.uquark.barrymore.service.LightService;
 import me.uquark.barrymore.ui.IUserInterface;
 import me.uquark.barrymore.ui.UserOrder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Barrymore implements IAvatar {
@@ -15,7 +16,7 @@ public class Barrymore implements IAvatar {
 
     private ArrayList<AbstractService> services = new ArrayList<AbstractService>();
 
-    public Barrymore(IUserInterface ui) {
+    public Barrymore(IUserInterface ui) throws IOException {
         this.ui = ui;
 
         services.add(lightService);
@@ -23,17 +24,15 @@ public class Barrymore implements IAvatar {
 
     @Override
     public void userOrder(UserOrder uo) {
-        if (uo.message.equals("/exit")) {
-            halt();
-            return;
-        }
+        String adjustedMessage = uo.message;
+        adjustedMessage = adjustedMessage.replace("[,.;:!?-]", "");
 
         double max = 0;
         int index = -1;
 
         for (int i = 0; i < services.size(); i++) {
             AbstractService service = services.get(i);
-            double confidence = service.analyzeMessage(uo.message);
+            double confidence = service.analyzeMessage(adjustedMessage);
             if (confidence > max) {
                 max = confidence;
                 index = i;
@@ -41,8 +40,6 @@ public class Barrymore implements IAvatar {
         }
 
         services.get(index).userOrder(uo);
-
-        ui.putMessage(uo.message);
     }
 
     @Override
